@@ -25,14 +25,22 @@
     .editor h1{ font-family:'Poppins',sans-serif; font-size:18px; margin-bottom:4px; }
     .editor .sub{ font-size:12px; color:#c99a3d; margin-bottom:16px; }
     .editor label{ font-size:12px; font-weight:700; color:#d9772a; display:block; margin:14px 0 6px; text-transform:uppercase; letter-spacing:1px; }
-    .editor input[type=text], .editor textarea{
+    .editor input[type=text]{
         width:100%; padding:9px 10px; border-radius:6px; border:none;
         background:#37301f; color:#fffaf0; font-family:'Hind',sans-serif; font-size:14px;
     }
-    .editor textarea{ height:380px; line-height:1.6; resize:vertical; }
+    .editor textarea{
+        width:100%; height:380px; padding:12px; border-radius:8px; border:none;
+        background:#37301f; color:#fffaf0; font-family:'Hind',sans-serif; font-size:14px;
+        line-height:1.6; resize:vertical;
+    }
     .editor .help{
         margin-top:14px; font-size:12px; line-height:1.7; color:#c9bfa5;
         background:#2b2519; padding:12px 14px; border-radius:8px; border-left:3px solid #d9772a;
+    }
+    .editor .help b{ color:#f3ead9; }
+    .zoom-status{
+        margin-top:10px; font-size:12px; color:#c99a3d; font-weight:700;
     }
     .btn-row{ display:flex; gap:10px; margin-top:18px; }
     .btn{ flex:1; padding:11px 8px; border:none; border-radius:8px; font-family:'Poppins',sans-serif; font-weight:700; font-size:13px; cursor:pointer; }
@@ -40,142 +48,162 @@
     .btn.secondary{ background:#3a3221; color:#f3ead9; border:1px solid #55492e; }
     .btn:hover{ filter:brightness(1.08); }
 
-    /* ============ RIGHT: PREVIEW (Letter Size - Fully Optimized) ============ */
-    .preview-wrap{ flex:1; display:flex; justify-content:center; padding:30px 20px; overflow-y:auto; height:100vh; }
+    /* ============ RIGHT: PREVIEW (A4, always fits on ONE page) ============ */
+    .preview-wrap{ flex:1; display:flex; justify-content:center; align-items:flex-start; padding:40px 20px; overflow-y:auto; height:100vh; }
 
-    .page{
-        width:216mm;
-        min-height:279mm;
+    /* Fixed A4 frame - this is exactly one printed page, nothing ever escapes it */
+    .page-frame{
+        width:210mm;
+        height:297mm;
         background:#fffaf0;
         position:relative;
-        padding:50px 46px 48px;
         border:5px solid #8c4a1f;
         box-shadow:0 25px 70px rgba(0,0,0,0.32);
+        overflow:hidden;
+        flex-shrink:0;
+    }
+
+    /* Inner content - JS shrinks this (via zoom) so it always fits inside the frame above */
+    .page{
+        width:100%;
+        height:100%;
+        padding:65px 55px 55px;
         display:flex;
         flex-direction:column;
+        font-feature-settings: "kern" 1, "liga" 1;
     }
 
-    .corner-accent{ 
-        position:absolute; width:108px; height:108px; 
-        border:5px solid #d9772a; z-index:10; border-radius:22px;
+    .corner-accent{
+        position:absolute;
+        width:110px;
+        height:110px;
+        border:5px solid #d9772a;
+        z-index:10;
+        border-radius:22px;
     }
-    .tl{ top:27px; left:27px; border-bottom:none; border-right:none; }
-    .tr{ top:27px; right:27px; border-bottom:none; border-left:none; }
-    .bl{ bottom:27px; left:27px; border-top:none; border-right:none; }
-    .br{ bottom:27px; right:27px; border-top:none; border-left:none; }
+    .tl{ top:32px; left:32px; border-bottom:none; border-right:none; }
+    .tr{ top:32px; right:32px; border-bottom:none; border-left:none; }
+    .bl{ bottom:32px; left:32px; border-top:none; border-right:none; }
+    .br{ bottom:32px; right:32px; border-top:none; border-left:none; }
 
-    .header{ 
-        text-align:center; 
-        padding-bottom:20px; 
-        margin-bottom:32px; 
-        border-bottom:5px solid #d9772a; 
+    .header{
+        position:relative;
+        z-index:5;
+        text-align:center;
+        padding-bottom:24px;
+        margin-bottom:42px;
+        border-bottom:5px solid #d9772a;
     }
-    .main-title{ 
-        font-family:'Mukta',sans-serif; 
-        font-size:54px; 
-        font-weight:900; 
-        color:#1f1d18; 
+    .main-title{
+        font-family:'Mukta',sans-serif;
+        font-size:58px;
+        font-weight:900;
+        color:#1f1d18;
         letter-spacing:-1px;
     }
-    .subtitle{ 
-        font-family:'Poppins',sans-serif; 
-        font-size:19.5px; 
-        font-weight:900; 
-        color:#b85c1a; 
-        letter-spacing:4.5px; 
-        margin-top:8px; 
+    .subtitle{
+        font-family:'Poppins',sans-serif;
+        font-size:21px;
+        font-weight:900;
+        color:#b85c1a;
+        letter-spacing:5px;
+        margin-top:10px;
     }
 
     .section-title{
-        font-family:'Mukta',sans-serif; 
-        font-size:27px; 
-        font-weight:900; 
+        font-family:'Mukta',sans-serif;
+        font-size:29px;
+        font-weight:900;
         color:#1f1d18;
-        padding:14px 26px; 
+        padding:16px 30px;
         background:linear-gradient(90deg,#f8f1e3,#e8d9b8);
-        border-left:9px solid #d9772a; 
-        margin:30px 0 18px;
+        border-left:10px solid #d9772a;
+        margin:38px 0 24px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.08);
     }
 
-    .news-item, .question{
-        background:#fff; 
-        padding:17px 24px; 
-        margin-bottom:18px; 
-        border-radius:12px;
-        box-shadow:0 6px 16px rgba(184,92,26,0.13);
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
+    .news-item{
+        background:#fff;
+        padding:20px 28px;
+        margin-bottom:22px;
+        border-radius:14px;
+        border-left:8px solid #b85c1a;
+        box-shadow:0 8px 20px rgba(184,92,26,0.14);
     }
-    .news-item{ border-left:7px solid #b85c1a; }
-    .question{ border:2.5px solid #e8d9b8; }
-
-    .news-item h3{ 
-        font-family:'Mukta',sans-serif; 
-        font-size:20.5px; 
-        font-weight:900; 
-        color:#1f1d18; 
-        margin-bottom:10px; 
+    .news-item h3{
+        font-family:'Mukta',sans-serif;
+        font-size:21.5px;
+        font-weight:900;
+        color:#1f1d18;
+        margin-bottom:12px;
     }
-    .news-list{ 
-        padding-left:18px; 
-        line-height:1.65; 
-        font-size:16.4px; 
+    .news-list{
+        padding-left:20px;
+        line-height:1.68;
+        font-size:16.8px;
     }
-    .news-list li{ margin-bottom:6px; }
+    .news-list li{ margin-bottom:7px; }
     .news-list b{ color:#b85c1a; }
 
+    .question{
+        background:#fff;
+        padding:20px 28px;
+        margin-bottom:22px;
+        border-radius:14px;
+        border:2.5px solid #e8d9b8;
+        box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    }
     .q-number{
-        display:inline-flex; align-items:center; justify-content:center;
-        width:39px; height:39px; 
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:42px;
+        height:42px;
         background:linear-gradient(145deg,#e08a3e,#b85c1a);
-        color:#fff; font-family:'Poppins',sans-serif; font-weight:900; font-size:17px;
-        border-radius:50%; margin-bottom:10px;
+        color:#fff;
+        font-family:'Poppins',sans-serif;
+        font-weight:900;
+        font-size:18px;
+        border-radius:50%;
+        margin-bottom:12px;
+        box-shadow:0 4px 10px rgba(184,92,26,0.3);
     }
-    .q-text{ 
-        font-size:16.4px; 
-        font-weight:700; 
-        color:#241f18; 
-        margin-bottom:10px; 
-        line-height:1.48;
+    .q-text{
+        font-size:16.8px;
+        font-weight:700;
+        color:#241f18;
+        margin-bottom:12px;
+        line-height:1.5;
     }
-    .a-pill{ 
-        display:inline-block; 
-        background:#f8f1e3; 
-        border-left:4px solid #d9772a; 
-        padding:8px 15px; 
-        border-radius:6px; 
-        font-size:15px; 
-        font-weight:600; 
-        color:#3a352b; 
+    .a-pill{
+        display:inline-block;
+        background:#f8f1e3;
+        border-left:4px solid #d9772a;
+        padding:8px 16px;
+        border-radius:8px;
+        font-size:15px;
+        font-weight:600;
+        color:#3a352b;
     }
+    .a-pill b{ color:#b85c1a; }
 
     .footer{
-        margin-top:auto; 
-        padding-top:32px; 
+        margin-top:auto;
+        padding-top:45px;
         text-align:center;
-        font-family:'Mukta',sans-serif; 
-        font-weight:900; 
-        font-size:15.8px; 
+        font-family:'Mukta',sans-serif;
+        font-weight:900;
+        font-size:16.5px;
         color:#8c4a1f;
         border-top:2px solid #d9c9a8;
     }
 
-    /* Print Settings */
     @media print{
         body{ background:#fff; }
         .editor{ display:none; }
-        .preview-wrap{ padding:0; }
-        .page{ 
-            box-shadow:none; 
-            margin:0; 
-            width:100%; 
-            min-height:100%; 
-            break-after: page;
-        }
-        @page{ 
-            size: letter; 
-            margin: 0.35in 0.4in; 
-        }
+        .preview-wrap{ padding:0; height:auto; overflow:visible; align-items:flex-start; }
+        .page-frame{ box-shadow:none; }
+        @page{ size:A4; margin:0; }
     }
 </style>
 </head>
@@ -219,11 +247,15 @@ A: 7.2%</textarea>
 
     <div class="help">
         <b>Format guide:</b><br>
-        <b>SECTION:</b> नया heading<br>
-        <b>NEWS:</b> नया news card<br>
-        <b>-</b> Bullet points<br>
-        <b>Q:</b> / <b>A:</b> Question & Answer
+        <b>SECTION:</b> नया heading शुरू करता है<br>
+        <b>NEWS:</b> नया news card शुरू करता है<br>
+        <b>-</b> उस card में bullet point<br>
+        <b>Q:</b> / <b>A:</b> question और answer जोड़ता है<br>
+        <b>**text**</b> = बोल्ड / highlight<br><br>
+        Jitna bhi content daalo, ye humesha ek hi A4 page mein fit hoga — jyada content aane par text/spacing thoda apne aap chhota ho jayega.
     </div>
+
+    <div class="zoom-status" id="zoomStatus"></div>
 
     <div class="btn-row">
         <button class="btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
@@ -232,20 +264,22 @@ A: 7.2%</textarea>
 </div>
 
 <div class="preview-wrap">
-    <div class="page" id="page">
-        <div class="corner-accent tl"></div>
-        <div class="corner-accent tr"></div>
-        <div class="corner-accent bl"></div>
-        <div class="corner-accent br"></div>
+    <div class="page-frame" id="pageFrame">
+        <div class="page" id="page">
+            <div class="corner-accent tl"></div>
+            <div class="corner-accent tr"></div>
+            <div class="corner-accent bl"></div>
+            <div class="corner-accent br"></div>
 
-        <div class="header">
-            <div class="main-title">समसामयिकी</div>
-            <div class="subtitle" id="subtitleOut">JUNE 2026 • PART - 2</div>
+            <div class="header">
+                <div class="main-title">समसामयिकी</div>
+                <div class="subtitle" id="subtitleOut">JUNE 2026 • PART - 2</div>
+            </div>
+
+            <div id="bodyOut"></div>
+
+            <div class="footer" id="footerOut">KULDEEP BISHNOI • RAS PRE + MAINS PREPARATION</div>
         </div>
-
-        <div id="bodyOut"></div>
-
-        <div class="footer" id="footerOut">KULDEEP BISHNOI • RAS PRE + MAINS PREPARATION</div>
     </div>
 </div>
 
@@ -257,9 +291,10 @@ function inlineBold(str){
     return escapeHTML(str).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
 }
 
-function render(){
+function buildHTML(){
     const raw = document.getElementById('rawInput').value;
     const lines = raw.split('\n');
+
     let html = '';
     let qNum = 0;
     let newsOpen = false;
@@ -287,7 +322,7 @@ function render(){
         else if(t.startsWith('Q:')){
             closeNews(); closeQuestion();
             qNum++;
-            html += `<div class="question"><div class="q-number">\( {String(qNum).padStart(2,'0')}</div><p class="q-text"> \){inlineBold(t.replace('Q:','').trim())}</p>`;
+            html += `<div class="question"><div class="q-number">${String(qNum).padStart(2,'0')}</div><p class="q-text">${inlineBold(t.replace('Q:','').trim())}</p>`;
             qOpen = true;
         }
         else if(t.startsWith('A:')){
@@ -295,20 +330,53 @@ function render(){
         }
     });
     closeNews(); closeQuestion();
+    return html;
+}
 
-    document.getElementById('bodyOut').innerHTML = html;
+/* Shrink-to-fit: reduce zoom step by step until content fits inside the fixed A4 frame */
+function fitToOnePage(){
+    const page = document.getElementById('page');
+    const frame = document.getElementById('pageFrame');
+    const status = document.getElementById('zoomStatus');
+
+    page.style.zoom = 1;
+
+    let zoom = 1;
+    const minZoom = 0.55;
+    let guard = 0;
+
+    while (page.scrollHeight > frame.clientHeight && zoom > minZoom && guard < 40) {
+        zoom -= 0.02;
+        page.style.zoom = zoom;
+        guard++;
+    }
+
+    if (page.scrollHeight > frame.clientHeight) {
+        status.textContent = `⚠️ Content bahut zyada hai — ${Math.round(zoom*100)}% tak chhota kiya, फिर भी थोड़ा tight hai`;
+    } else if (zoom < 1) {
+        status.textContent = `Auto-fit: text ${Math.round(zoom*100)}% size par set hua`;
+    } else {
+        status.textContent = `✅ Aaram se fit ho raha hai (100% size)`;
+    }
+}
+
+function render(){
+    document.getElementById('bodyOut').innerHTML = buildHTML();
     document.getElementById('subtitleOut').textContent = document.getElementById('subtitleInput').value;
     document.getElementById('footerOut').textContent = document.getElementById('footerInput').value;
+    requestAnimationFrame(fitToOnePage);
 }
 
 function downloadHTML(){
-    const pageHTML = document.getElementById('page').outerHTML;
+    const pageHTML = document.getElementById('pageFrame').outerHTML;
     const styles = document.querySelector('style').outerHTML;
-    const doc = `<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><title>समसामयिकी</title>\( {styles}</head><body style="background:#eee6d4;display:flex;justify-content:center;padding:30px;"> \){pageHTML}</body></html>`;
+    const doc = `<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><title>समसामयिकी</title>${styles}
+    <style>body{background:#eee6d4;display:flex;justify-content:center;padding:40px 20px;}</style>
+    </head><body>${pageHTML}</body></html>`;
     const blob = new Blob([doc], {type:'text/html'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = 'samasamayiki-bulletin.html';
+    a.href = url; a.download = 'current-affairs.html';
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -316,6 +384,7 @@ function downloadHTML(){
 document.getElementById('rawInput').addEventListener('input', render);
 document.getElementById('subtitleInput').addEventListener('input', render);
 document.getElementById('footerInput').addEventListener('input', render);
+window.addEventListener('resize', fitToOnePage);
 render();
 </script>
 
