@@ -45,71 +45,163 @@
     .btn.secondary{ background:#3a3221; color:#f3ead9; border:1px solid #55492e; }
     .btn:hover{ filter:brightness(1.08); }
 
-    /* ============ RIGHT: PREVIEW (matches the kept design exactly) ============ */
+    /* ============ RIGHT: PREVIEW (Letter Size + Highly Professional) ============ */
     .preview-wrap{ flex:1; display:flex; justify-content:center; padding:40px 20px; overflow-y:auto; height:100vh; }
 
     .page{
-        width:210mm; min-height:297mm;
+        width:216mm; 
+        min-height:279mm;
         background:#fffaf0;
         position:relative;
-        padding:70px 60px 60px;
-        border:4px solid #b85c1a;
-        box-shadow:0 20px 60px rgba(0,0,0,0.28);
-        display:flex; flex-direction:column;
+        padding:65px 55px 55px;
+        border:5px solid #8c4a1f;
+        box-shadow:0 25px 70px rgba(0,0,0,0.32);
+        display:flex; 
+        flex-direction:column;
+        font-feature-settings: "kern" 1, "liga" 1;
     }
 
-    .corner-accent{ position:absolute; width:100px; height:100px; border:4.5px solid #d9772a; z-index:10; }
-    .tl{ top:28px; left:28px; border-radius:20px 0 0 0; border-bottom:none; border-right:none; }
-    .tr{ top:28px; right:28px; border-radius:0 20px 0 0; border-bottom:none; border-left:none; }
-    .bl{ bottom:28px; left:28px; border-radius:0 0 0 20px; border-top:none; border-right:none; }
-    .br{ bottom:28px; right:28px; border-radius:0 0 20px 0; border-top:none; border-left:none; }
+    .corner-accent{ 
+        position:absolute; 
+        width:110px; 
+        height:110px; 
+        border:5px solid #d9772a; 
+        z-index:10; 
+        border-radius:22px;
+    }
+    .tl{ top:32px; left:32px; border-bottom:none; border-right:none; }
+    .tr{ top:32px; right:32px; border-bottom:none; border-left:none; }
+    .bl{ bottom:32px; left:32px; border-top:none; border-right:none; }
+    .br{ bottom:32px; right:32px; border-top:none; border-left:none; }
 
-    .header{ position:relative; z-index:5; text-align:center; padding-bottom:22px; margin-bottom:40px; border-bottom:4px solid #d9772a; }
-    .main-title{ font-family:'Mukta',sans-serif; font-size:56px; font-weight:900; color:#1f1d18; }
-    .subtitle{ font-family:'Poppins',sans-serif; font-size:20px; font-weight:900; color:#b85c1a; letter-spacing:4px; margin-top:8px; }
+    .header{ 
+        position:relative; 
+        z-index:5; 
+        text-align:center; 
+        padding-bottom:24px; 
+        margin-bottom:42px; 
+        border-bottom:5px solid #d9772a; 
+    }
+    .main-title{ 
+        font-family:'Mukta',sans-serif; 
+        font-size:58px; 
+        font-weight:900; 
+        color:#1f1d18; 
+        letter-spacing:-1px;
+    }
+    .subtitle{ 
+        font-family:'Poppins',sans-serif; 
+        font-size:21px; 
+        font-weight:900; 
+        color:#b85c1a; 
+        letter-spacing:5px; 
+        margin-top:10px; 
+    }
 
     .section-title{
-        font-family:'Mukta',sans-serif; font-size:28px; font-weight:900; color:#1f1d18;
-        padding:14px 28px; background:linear-gradient(90deg,#f8f1e3,#e8d9b8);
-        border-left:9px solid #d9772a; margin:35px 0 22px;
+        font-family:'Mukta',sans-serif; 
+        font-size:29px; 
+        font-weight:900; 
+        color:#1f1d18;
+        padding:16px 30px; 
+        background:linear-gradient(90deg,#f8f1e3,#e8d9b8);
+        border-left:10px solid #d9772a; 
+        margin:38px 0 24px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.08);
     }
 
     .news-item{
-        background:#fff; padding:18px 26px; margin-bottom:20px; border-radius:12px;
-        border-left:7px solid #b85c1a; box-shadow:0 6px 16px rgba(184,92,26,0.15);
+        background:#fff; 
+        padding:20px 28px; 
+        margin-bottom:22px; 
+        border-radius:14px;
+        border-left:8px solid #b85c1a; 
+        box-shadow:0 8px 20px rgba(184,92,26,0.14);
         break-inside:avoid;
     }
-    .news-item h3{ font-family:'Mukta',sans-serif; font-size:20.5px; font-weight:900; color:#1f1d18; margin-bottom:10px; }
-    .news-list{ padding-left:18px; line-height:1.65; font-size:16.5px; }
-    .news-list li{ margin-bottom:6px; }
+    .news-item h3{ 
+        font-family:'Mukta',sans-serif; 
+        font-size:21.5px; 
+        font-weight:900; 
+        color:#1f1d18; 
+        margin-bottom:12px; 
+    }
+    .news-list{ 
+        padding-left:20px; 
+        line-height:1.68; 
+        font-size:16.8px; 
+    }
+    .news-list li{ margin-bottom:7px; }
     .news-list b{ color:#b85c1a; }
 
     .question{
-        background:#fff; padding:18px 26px; margin-bottom:20px; border-radius:12px;
-        border:2px solid #e8d9b8; box-shadow:0 6px 16px rgba(0,0,0,0.1);
+        background:#fff; 
+        padding:20px 28px; 
+        margin-bottom:22px; 
+        border-radius:14px;
+        border:2.5px solid #e8d9b8; 
+        box-shadow:0 8px 20px rgba(0,0,0,0.1);
         break-inside:avoid;
     }
     .q-number{
-        display:inline-flex; align-items:center; justify-content:center;
-        width:38px; height:38px; background:linear-gradient(145deg,#e08a3e,#b85c1a);
-        color:#fff; font-family:'Poppins',sans-serif; font-weight:900; font-size:17px;
-        border-radius:50%; margin-bottom:10px;
+        display:inline-flex; 
+        align-items:center; 
+        justify-content:center;
+        width:42px; 
+        height:42px; 
+        background:linear-gradient(145deg,#e08a3e,#b85c1a);
+        color:#fff; 
+        font-family:'Poppins',sans-serif; 
+        font-weight:900; 
+        font-size:18px;
+        border-radius:50%; 
+        margin-bottom:12px;
+        box-shadow:0 4px 10px rgba(184,92,26,0.3);
     }
-    .q-text{ font-size:16.5px; font-weight:700; color:#241f18; margin-bottom:10px; }
-    .a-pill{ display:inline-block; background:#f8f1e3; border-left:3px solid #d9772a; padding:7px 14px; border-radius:6px; font-size:14.5px; font-weight:600; color:#3a352b; }
+    .q-text{ 
+        font-size:16.8px; 
+        font-weight:700; 
+        color:#241f18; 
+        margin-bottom:12px; 
+        line-height:1.5;
+    }
+    .a-pill{ 
+        display:inline-block; 
+        background:#f8f1e3; 
+        border-left:4px solid #d9772a; 
+        padding:8px 16px; 
+        border-radius:8px; 
+        font-size:15px; 
+        font-weight:600; 
+        color:#3a352b; 
+    }
     .a-pill b{ color:#b85c1a; }
 
     .footer{
-        margin-top:auto; padding-top:40px; text-align:center;
-        font-family:'Mukta',sans-serif; font-weight:900; font-size:16px; color:#8c4a1f;
+        margin-top:auto; 
+        padding-top:45px; 
+        text-align:center;
+        font-family:'Mukta',sans-serif; 
+        font-weight:900; 
+        font-size:16.5px; 
+        color:#8c4a1f;
+        border-top:2px solid #d9c9a8;
     }
 
     @media print{
         body{ background:#fff; }
         .editor{ display:none; }
         .preview-wrap{ padding:0; height:auto; overflow:visible; }
-        .page{ box-shadow:none; }
-        @page{ size:A4; margin:0; }
+        .page{ 
+            box-shadow:none; 
+            border:5px solid #8c4a1f;
+            width:216mm;
+            min-height:279mm;
+        }
+        @page{ 
+            size: letter; 
+            margin:0; 
+        }
     }
 </style>
 </head>
@@ -158,7 +250,7 @@ A: 7.2%</textarea>
         <b>-</b> उस card में bullet point (list जैसा दिखेगा)<br>
         <b>Q:</b> / <b>A:</b> question और answer जोड़ता है<br>
         <b>**text**</b> = बोल्ड / highlight करने के लिए (जैसे numbers)<br><br>
-        Jitni chaho utni <b>NEWS:</b> ya <b>Q:/A:</b> जोड़ते जाओ — page kabhi cut nahi hoga, print karne par khud-ba-khud agla A4 page ban jayega.
+        Jitni chaho utni <b>NEWS:</b> ya <b>Q:/A:</b> जोड़ते जाओ — page kabhi cut nahi hoga.
     </div>
 
     <div class="btn-row">
@@ -224,7 +316,7 @@ function render(){
         else if(t.startsWith('Q:')){
             closeNews(); closeQuestion();
             qNum++;
-            html += `<div class="question"><div class="q-number">${String(qNum).padStart(2,'0')}</div><p class="q-text">${inlineBold(t.replace('Q:','').trim())}</p>`;
+            html += `<div class="question"><div class="q-number">\( {String(qNum).padStart(2,'0')}</div><p class="q-text"> \){inlineBold(t.replace('Q:','').trim())}</p>`;
             qOpen = true;
         }
         else if(t.startsWith('A:')){
