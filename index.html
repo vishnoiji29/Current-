@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>समसामयिकी • Premium Notes Generator</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Mukta:wght@700;800;900&family=Poppins:wght@600;700;800&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: 'Hind', sans-serif;
+        background: #f8f5f0;
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Editor */
+    .editor {
+        width: 380px; flex-shrink: 0;
+        background: #0f172a; color: #e2e8f0;
+        padding: 24px; overflow-y: auto;
+        height: 100vh;
+    }
+    .editor h1 { font-family: 'Poppins', sans-serif; font-size: 22px; margin-bottom: 8px; }
+    .editor label { display: block; font-size: 12px; font-weight: 700; color: #94a3b8; margin: 18px 0 6px; text-transform: uppercase; }
+    .editor input, .editor textarea {
+        width: 100%; padding: 10px 12px; border-radius: 8px; border: none;
+        background: #1e2937; color: #f1f5f9; font-size: 14px;
+    }
+    .editor textarea { height: 420px; resize: vertical; line-height: 1.6; }
+    .btn-row { display: flex; gap: 12px; margin-top: 20px; }
+    .btn {
+        flex: 1; padding: 12px; border: none; border-radius: 8px;
+        font-weight: 700; font-size: 14px; cursor: pointer;
+    }
+    .btn.primary { background: #1e40af; color: white; }
+    .btn.secondary { background: #334155; color: #e2e8f0; }
+
+    /* Preview */
+    .preview-wrap {
+        flex: 1; display: flex; justify-content: center; padding: 30px; overflow-y: auto;
+    }
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        background: white;
+        position: relative;
+        padding: 22mm 18mm 25mm;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        border: 6px solid #1e2937;
+        display: flex;
+        flex-direction: column;
+        font-size: 17px;
+        line-height: 1.75;
+    }
+
+    .header {
+        text-align: center;
+        border-bottom: 4px solid #1e40af;
+        padding-bottom: 12px;
+        margin-bottom: 22px;
+    }
+    .main-title {
+        font-family: 'Mukta', sans-serif;
+        font-size: 42px;
+        font-weight: 900;
+        color: #1e2937;
+    }
+    .subtitle {
+        font-family: 'Poppins', sans-serif;
+        font-size: 17px;
+        color: #b91c1c;
+        font-weight: 700;
+        letter-spacing: 3px;
+    }
+
+    .section-title {
+        font-family: 'Mukta', sans-serif;
+        font-size: 24px;
+        font-weight: 900;
+        background: #1e2937;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        margin: 22px 0 14px;
+    }
+
+    .news-item {
+        border-left: 6px solid #b91c1c;
+        padding-left: 18px;
+        margin-bottom: 18px;
+        background: #f8fafc;
+        padding: 14px 18px;
+        border-radius: 8px;
+    }
+    .news-item h3 {
+        font-family: 'Mukta', sans-serif;
+        font-size: 20px;
+        color: #1e2937;
+        margin-bottom: 8px;
+    }
+    .news-list {
+        padding-left: 18px;
+        font-size: 16.5px;
+    }
+    .news-list li {
+        margin-bottom: 7px;
+    }
+
+    .qa-block {
+        background: #f1f5f9;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 6px solid #b91c1c;
+        margin-bottom: 18px;
+    }
+    .q-text { font-weight: 700; font-size: 17px; color: #1e2937; }
+    .a-text { margin-top: 8px; font-size: 16.5px; }
+
+    .footer {
+        margin-top: auto;
+        text-align: center;
+        padding-top: 20px;
+        border-top: 2px solid #64748b;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #334155;
+        font-weight: 600;
+    }
+
+    @media print {
+        body { background: white; }
+        .editor { display: none; }
+        .preview-wrap { padding: 0; }
+        .page { box-shadow: none; margin: 0; width: 100%; min-height: 100%; }
+        @page { size: A4; margin: 0; }
+    }
+</style>
+</head>
+<body>
+
+<div class="editor">
+    <h1>📘 Premium Notes Generator</h1>
+    <p style="color:#94a3b8; margin-bottom:20px; font-size:13px;">Full Textbook Style</p>
+
+    <label>Subtitle</label>
+    <input type="text" id="subtitleInput" value="JULY 2026 • PART - 1">
+
+    <label>Footer Text</label>
+    <input type="text" id="footerInput" value="BY KULDEEP BISHNOI • RAS PRE + MAINS">
+
+    <label>Content (Full Page Fill)</label>
+    <textarea id="rawInput">SECTION: महत्वपूर्ण समाचार बुलेट्स
+
+NEWS: राजस्थान सौर ऊर्जा नीति 2026
+- **30 GW** सौर ऊर्जा उत्पादन लक्ष्य
+- **5000 करोड़** रुपये का निवेश प्रस्तावित
+- किसानों को **60%** सब्सिडी मिलेगी
+- नई पॉलिसी से 1 लाख रोजगार सृजन की उम्मीद
+
+NEWS: राष्ट्रीय आर्थिक अपडेट
+- GDP वृद्धि दर **7.2%** दर्ज
+- FDI में **18%** की बढ़ोतरी
+- नई MSME नीति जारी, छोटे उद्योगों को बढ़ावा
+
+NEWS: राजस्थान बजट 2026-27
+- शिक्षा क्षेत्र में **18%** बढ़ोतरी
+- महिला सशक्तिकरण के लिए नई योजनाएँ
+- सौर ऊर्जा पर विशेष फोकस
+- ग्रामीण विकास के लिए 12,000 करोड़ का प्रावधान
+
+SECTION: अभ्यास प्रश्न
+
+Q: राजस्थान सरकार की नई सौर ऊर्जा नीति का मुख्य लक्ष्य क्या है?
+A: 30 GW सौर ऊर्जा उत्पादन
+
+Q: वर्तमान में भारत की GDP वृद्धि दर कितनी है?
+A: 7.2%
+
+Q: राजस्थान बजट 2026-27 में शिक्षा क्षेत्र में कितने प्रतिशत की बढ़ोतरी हुई है?
+A: 18 प्रतिशत</textarea>
+
+    <div class="btn-row">
+        <button class="btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn secondary" onclick="downloadHTML()">⬇️ Download HTML</button>
+    </div>
+</div>
+
+<div class="preview-wrap">
+    <div class="page" id="page">
+        <div class="header">
+            <div class="main-title">समसामयिकी</div>
+            <div class="subtitle" id="subtitleOut">JULY 2026 • PART - 1</div>
+        </div>
+
+        <div id="bodyOut"></div>
+
+        <div class="footer" id="footerOut">BY KULDEEP BISHNOI • RAS PRE + MAINS</div>
+    </div>
+</div>
+
+<script>
+function escapeHTML(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function inlineBold(str) {
+    return escapeHTML(str).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+}
+
+function render() {
+    const raw = document.getElementById('rawInput').value;
+    const lines = raw.split('\n');
+    let html = '';
+    let qNum = 0;
+    let newsOpen = false;
+    let qOpen = false;
+
+    function closeNews() { if (newsOpen) { html += `</ul></div>`; newsOpen = false; } }
+    function closeQuestion() { if (qOpen) { html += `</div>`; qOpen = false; } }
+
+    lines.forEach(line => {
+        const t = line.trim();
+        if (!t) return;
+
+        if (t.startsWith('SECTION:')) {
+            closeNews(); closeQuestion();
+            html += `<div class="section-title">${escapeHTML(t.replace('SECTION:', '').trim())}</div>`;
+        } else if (t.startsWith('NEWS:')) {
+            closeNews(); closeQuestion();
+            html += `<div class="news-item"><h3>${escapeHTML(t.replace('NEWS:', '').trim())}</h3><ul class="news-list">`;
+            newsOpen = true;
+        } else if (t.startsWith('-')) {
+            html += `<li>${inlineBold(t.replace(/^-/, '').trim())}</li>`;
+        } else if (t.startsWith('Q:')) {
+            closeNews(); closeQuestion();
+            qNum++;
+            html += `<div class="qa-block"><div class="q-text">Q${qNum}: ${inlineBold(t.replace('Q:', '').trim())}</div>`;
+            qOpen = true;
+        } else if (t.startsWith('A:')) {
+            html += `<div class="a-text"><b>उत्तर:</b> ${inlineBold(t.replace('A:', '').trim())}</div>`;
+        } else {
+            html += `<p style="margin-bottom:12px;">${inlineBold(t)}</p>`;
+        }
+    });
+
+    closeNews(); closeQuestion();
+    document.getElementById('bodyOut').innerHTML = html;
+    document.getElementById('subtitleOut').textContent = document.getElementById('subtitleInput').value;
+    document.getElementById('footerOut').textContent = document.getElementById('footerInput').value;
+}
+
+function downloadHTML() {
+    const pageHTML = document.getElementById('page').outerHTML;
+    const styles = document.querySelector('style').outerHTML;
+    const fullDoc = `<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><title>समसामयिकी</title>\( {styles}</head><body> \){pageHTML}</body></html>`;
+    const blob = new Blob([fullDoc], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'premium-notes.html';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('rawInput').addEventListener('input', render);
+document.getElementById('subtitleInput').addEventListener('input', render);
+document.getElementById('footerInput').addEventListener('input', render);
+render();
+</script>
+
+</body>
+</html>
