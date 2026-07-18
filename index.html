@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>News Bulletin Generator</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind:wght@500;600;700&family=Mukta:wght@700;800;900&family=Poppins:wght@600;700;800&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body{
+        font-family:'Hind',sans-serif;
+        background:#eee6d4;
+        display:flex;
+        min-height:100vh;
+    }
+
+    /* ============ LEFT: EDITOR PANEL ============ */
+    .editor{
+        width:400px; flex-shrink:0;
+        background:#211c15; color:#f3ead9;
+        padding:22px 20px; overflow-y:auto;
+        height:100vh; position:sticky; top:0;
+    }
+    .editor h1{ font-family:'Poppins',sans-serif; font-size:18px; margin-bottom:4px; }
+    .editor .sub{ font-size:12px; color:#c99a3d; margin-bottom:16px; }
+    .editor label{ font-size:12px; font-weight:700; color:#d9772a; display:block; margin:14px 0 6px; text-transform:uppercase; letter-spacing:1px; }
+    .editor input[type=text]{
+        width:100%; padding:9px 10px; border-radius:6px; border:none;
+        background:#37301f; color:#fffaf0; font-family:'Hind',sans-serif; font-size:14px;
+    }
+    .editor textarea{
+        width:100%; height:380px; padding:12px; border-radius:8px; border:none;
+        background:#37301f; color:#fffaf0; font-family:'Hind',sans-serif; font-size:14px;
+        line-height:1.6; resize:vertical;
+    }
+    .editor .help{
+        margin-top:14px; font-size:12px; line-height:1.7; color:#c9bfa5;
+        background:#2b2519; padding:12px 14px; border-radius:8px; border-left:3px solid #d9772a;
+    }
+    .editor .help b{ color:#f3ead9; }
+    .btn-row{ display:flex; gap:10px; margin-top:18px; }
+    .btn{ flex:1; padding:11px 8px; border:none; border-radius:8px; font-family:'Poppins',sans-serif; font-weight:700; font-size:13px; cursor:pointer; }
+    .btn.primary{ background:#d9772a; color:#fff; }
+    .btn.secondary{ background:#3a3221; color:#f3ead9; border:1px solid #55492e; }
+    .btn:hover{ filter:brightness(1.08); }
+
+    /* ============ RIGHT: PREVIEW (matches the kept design exactly) ============ */
+    .preview-wrap{ flex:1; display:flex; justify-content:center; padding:40px 20px; overflow-y:auto; height:100vh; }
+
+    .page{
+        width:210mm; min-height:297mm;
+        background:#fffaf0;
+        position:relative;
+        padding:70px 60px 60px;
+        border:4px solid #b85c1a;
+        box-shadow:0 20px 60px rgba(0,0,0,0.28);
+        display:flex; flex-direction:column;
+    }
+
+    .corner-accent{ position:absolute; width:100px; height:100px; border:4.5px solid #d9772a; z-index:10; }
+    .tl{ top:28px; left:28px; border-radius:20px 0 0 0; border-bottom:none; border-right:none; }
+    .tr{ top:28px; right:28px; border-radius:0 20px 0 0; border-bottom:none; border-left:none; }
+    .bl{ bottom:28px; left:28px; border-radius:0 0 0 20px; border-top:none; border-right:none; }
+    .br{ bottom:28px; right:28px; border-radius:0 0 20px 0; border-top:none; border-left:none; }
+
+    .header{ position:relative; z-index:5; text-align:center; padding-bottom:22px; margin-bottom:40px; border-bottom:4px solid #d9772a; }
+    .main-title{ font-family:'Mukta',sans-serif; font-size:56px; font-weight:900; color:#1f1d18; }
+    .subtitle{ font-family:'Poppins',sans-serif; font-size:20px; font-weight:900; color:#b85c1a; letter-spacing:4px; margin-top:8px; }
+
+    .section-title{
+        font-family:'Mukta',sans-serif; font-size:28px; font-weight:900; color:#1f1d18;
+        padding:14px 28px; background:linear-gradient(90deg,#f8f1e3,#e8d9b8);
+        border-left:9px solid #d9772a; margin:35px 0 22px;
+    }
+
+    .news-item{
+        background:#fff; padding:18px 26px; margin-bottom:20px; border-radius:12px;
+        border-left:7px solid #b85c1a; box-shadow:0 6px 16px rgba(184,92,26,0.15);
+        break-inside:avoid;
+    }
+    .news-item h3{ font-family:'Mukta',sans-serif; font-size:20.5px; font-weight:900; color:#1f1d18; margin-bottom:10px; }
+    .news-list{ padding-left:18px; line-height:1.65; font-size:16.5px; }
+    .news-list li{ margin-bottom:6px; }
+    .news-list b{ color:#b85c1a; }
+
+    .question{
+        background:#fff; padding:18px 26px; margin-bottom:20px; border-radius:12px;
+        border:2px solid #e8d9b8; box-shadow:0 6px 16px rgba(0,0,0,0.1);
+        break-inside:avoid;
+    }
+    .q-number{
+        display:inline-flex; align-items:center; justify-content:center;
+        width:38px; height:38px; background:linear-gradient(145deg,#e08a3e,#b85c1a);
+        color:#fff; font-family:'Poppins',sans-serif; font-weight:900; font-size:17px;
+        border-radius:50%; margin-bottom:10px;
+    }
+    .q-text{ font-size:16.5px; font-weight:700; color:#241f18; margin-bottom:10px; }
+    .a-pill{ display:inline-block; background:#f8f1e3; border-left:3px solid #d9772a; padding:7px 14px; border-radius:6px; font-size:14.5px; font-weight:600; color:#3a352b; }
+    .a-pill b{ color:#b85c1a; }
+
+    .footer{
+        margin-top:auto; padding-top:40px; text-align:center;
+        font-family:'Mukta',sans-serif; font-weight:900; font-size:16px; color:#8c4a1f;
+    }
+
+    @media print{
+        body{ background:#fff; }
+        .editor{ display:none; }
+        .preview-wrap{ padding:0; height:auto; overflow:visible; }
+        .page{ box-shadow:none; }
+        @page{ size:A4; margin:0; }
+    }
+</style>
+</head>
+<body>
+
+<div class="editor">
+    <h1>📋 News Bulletin Generator</h1>
+    <div class="sub">Plain text daalo → design apne aap ban jayega</div>
+
+    <label>Subtitle (top strip)</label>
+    <input type="text" id="subtitleInput" value="JUNE 2026 • PART - 2">
+
+    <label>Footer text</label>
+    <input type="text" id="footerInput" value="KULDEEP BISHNOI • RAS PRE + MAINS PREPARATION">
+
+    <label>News / Questions text</label>
+    <textarea id="rawInput">SECTION: महत्वपूर्ण समाचार बुलेट्स
+
+NEWS: राजस्थान सौर ऊर्जा नीति 2026
+- **30 GW** उत्पादन लक्ष्य निर्धारित
+- **5000 करोड़** रुपये का निवेश प्रस्तावित
+- किसानों को **60% सब्सिडी** दी जाएगी
+
+NEWS: राष्ट्रीय आर्थिक अपडेट
+- GDP वृद्धि दर **7.2%** दर्ज की गई
+- FDI (विदेशी निवेश) में **18%** की बढ़ोतरी
+- नई MSME नीति जारी
+
+NEWS: राजस्थान बजट 2026-27 मुख्य घोषणाएँ
+- शिक्षा क्षेत्र में **18%** बढ़ोतरी
+- महिला सशक्तिकरण के लिए नई योजनाएँ
+- सौर ऊर्जा पर विशेष फोकस
+
+SECTION: प्रैक्टिस प्रश्न
+
+Q: राजस्थान सरकार की नई सौर नीति का लक्ष्य क्या है?
+A: 30 GW सौर ऊर्जा उत्पादन
+
+Q: वर्तमान में भारत का GDP वृद्धि दर कितना है?
+A: 7.2%</textarea>
+
+    <div class="help">
+        <b>Format guide:</b><br>
+        <b>SECTION:</b> नया heading शुरू करता है<br>
+        <b>NEWS:</b> नया news card शुरू करता है<br>
+        <b>-</b> उस card में bullet point (list जैसा दिखेगा)<br>
+        <b>Q:</b> / <b>A:</b> question और answer जोड़ता है<br>
+        <b>**text**</b> = बोल्ड / highlight करने के लिए (जैसे numbers)<br><br>
+        Jitni chaho utni <b>NEWS:</b> ya <b>Q:/A:</b> जोड़ते जाओ — page kabhi cut nahi hoga, print karne par khud-ba-khud agla A4 page ban jayega.
+    </div>
+
+    <div class="btn-row">
+        <button class="btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn secondary" onclick="downloadHTML()">⬇️ Download HTML</button>
+    </div>
+</div>
+
+<div class="preview-wrap">
+    <div class="page" id="page">
+        <div class="corner-accent tl"></div>
+        <div class="corner-accent tr"></div>
+        <div class="corner-accent bl"></div>
+        <div class="corner-accent br"></div>
+
+        <div class="header">
+            <div class="main-title">समसामयिकी</div>
+            <div class="subtitle" id="subtitleOut">JUNE 2026 • PART - 2</div>
+        </div>
+
+        <div id="bodyOut"></div>
+
+        <div class="footer" id="footerOut">KULDEEP BISHNOI • RAS PRE + MAINS PREPARATION</div>
+    </div>
+</div>
+
+<script>
+function escapeHTML(str){
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function inlineBold(str){
+    return escapeHTML(str).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+}
+
+function render(){
+    const raw = document.getElementById('rawInput').value;
+    const lines = raw.split('\n');
+
+    let html = '';
+    let qNum = 0;
+    let newsOpen = false;
+    let qOpen = false;
+
+    function closeNews(){ if(newsOpen){ html += `</ul></div>`; newsOpen = false; } }
+    function closeQuestion(){ if(qOpen){ html += `</div>`; qOpen = false; } }
+
+    lines.forEach(line=>{
+        const t = line.trim();
+        if(t === '') return;
+
+        if(t.startsWith('SECTION:')){
+            closeNews(); closeQuestion();
+            html += `<div class="section-title">${escapeHTML(t.replace('SECTION:','').trim())}</div>`;
+        }
+        else if(t.startsWith('NEWS:')){
+            closeNews(); closeQuestion();
+            html += `<div class="news-item"><h3>${escapeHTML(t.replace('NEWS:','').trim())}</h3><ul class="news-list">`;
+            newsOpen = true;
+        }
+        else if(t.startsWith('-')){
+            html += `<li>${inlineBold(t.replace(/^-/, '').trim())}</li>`;
+        }
+        else if(t.startsWith('Q:')){
+            closeNews(); closeQuestion();
+            qNum++;
+            html += `<div class="question"><div class="q-number">${String(qNum).padStart(2,'0')}</div><p class="q-text">${inlineBold(t.replace('Q:','').trim())}</p>`;
+            qOpen = true;
+        }
+        else if(t.startsWith('A:')){
+            html += `<div class="a-pill"><b>उत्तर:</b> ${inlineBold(t.replace('A:','').trim())}</div>`;
+        }
+    });
+    closeNews(); closeQuestion();
+
+    document.getElementById('bodyOut').innerHTML = html;
+    document.getElementById('subtitleOut').textContent = document.getElementById('subtitleInput').value;
+    document.getElementById('footerOut').textContent = document.getElementById('footerInput').value;
+}
+
+function downloadHTML(){
+    const pageHTML = document.getElementById('page').outerHTML;
+    const styles = document.querySelector('style').outerHTML;
+    const doc = `<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><title>समसामयिकी</title>${styles}
+    <style>body{background:#eee6d4;display:flex;justify-content:center;padding:40px 20px;}</style>
+    </head><body>${pageHTML}</body></html>`;
+    const blob = new Blob([doc], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'current-affairs.html';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('rawInput').addEventListener('input', render);
+document.getElementById('subtitleInput').addEventListener('input', render);
+document.getElementById('footerInput').addEventListener('input', render);
+render();
+</script>
+
+</body>
+</html>
